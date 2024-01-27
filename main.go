@@ -4,6 +4,11 @@
 // // import statement for package fmt
 // import "fmt"   // fmt stands for format
 // GO has multiple predefined packages having different functions for different working specified on github of GO
+// To import multiple packages we need to use
+// import(
+// 	"pack1"
+// 	"pack2"
+// )
 
 //   	Basic Syntax of Hello world
 
@@ -72,9 +77,11 @@
 
 // Typecasting in GO is done by T(v) where T is type and v is value/variable
 
-// 	Functions : functions are defined using func keyword in go
+// 	Functions
+//	functions are defined using func keyword in go
 //  syntax:   func <functionName>() {  }
 // 		eg:  func <Hello>() {  }
+
 // when functions take some var and return some var
 // syntax: func <function-name>(<var-name> typeOfVar) return-type { return var/something }
 //  eg: func Hello(name string) string { return name }
@@ -117,6 +124,66 @@
 // or name := []string{}
 //  eg: name = append(name, value)
 
+// Loops
+// In go we don't have while, do while, for each loop we have only for loop
+// for loop has different types in GO
+// 1. Infinite:  syntax:  for{ .... }
+// 2. for index, var-Name := targetArray {  ...  }
+//  inplace of index we can use '_' in go _ used to make unused variables
+
+// Conditionals
+// syntax: if conditon { ... }
+
+// Swtich
+// syntax : switch var {
+// 	case "sad":  do something
+// 	case "sac":  do something
+// 	case "sacd":   do something
+// }
+
+// To export user created function of a package first import the package where you want to use with 'moduleName/packageName' then make first letter of function capital
+
+// we can export variables,constants also by the same way making first letter capital
+
+// Maps
+// It maps unique keys to values
+// syntax: var mapName = make(map[typeOfKey]typeOfValue)  make here give us empty map
+// access the map using: mapName["key"]=value
+
+// Struct
+// Struct is like classes in java
+// syntax:
+// type nameOfStruct struct {
+// 	var string
+//  var bool
+// }
+
+// To Implement concurrency in Go we know that some task take time to process so we break out that task from current thread and execute it on its own thread.
+// to make the new thread we need to use 'go' keyword in front of task which execute it on new thread
+// Specifing the 'go' keyword is only takes to spin a new thread while GOLANG do its own thing to spin new thread on background
+// eg: printf(asdfasd)
+// 	   go run(afdsd) { ..... }
+
+// when we need to wait for any thread to complete its execution before exiting the main application thread we need to tell main thread to wait for completion of new thread
+// we can do this using 'waitgroup' which is from sync package
+// eg: import "sync"
+// 	   var wg = sync.WaitGroup{}
+//  now we can use wg var befor where we are spining new thread
+// eg:  wg.Add(2)
+//      go run(Asdsa){...}
+//      go dotast(){ ... }
+
+// we can wait for thread to complete using wait function also from sync package which we need to use at end of the main thread
+// eg:
+//    func main(){
+// 	      ..
+// 	      ..
+// 	      ..
+// 	      wg.Wait()
+//    }
+
+// we need to add Done function at end of new thread we are creating  'wg.Done()'  done function remove the thread from waiting list which we define above
+
 package main
 
 import "fmt"
@@ -133,24 +200,36 @@ func main() {
 
 	bookings := []string{} //slice
 
-	var userName string
-	var userTickets uint
-	var userEmail string
+	for {
+		var userName string
+		var userTickets uint
+		var userEmail string
 
-	fmt.Printf("Enter your Name: ")
-	fmt.Scan(&userName)
+		fmt.Printf("Enter your Name: ")
+		fmt.Scan(&userName)
 
-	fmt.Printf("Enter your email:")
-	fmt.Scan(&userEmail)
+		fmt.Printf("Enter your email:")
+		fmt.Scan(&userEmail)
 
-	fmt.Printf("Enter No. of Tickets: ")
-	fmt.Scan(&userTickets)
+		fmt.Printf("Enter No. of Tickets: ")
+		fmt.Scan(&userTickets)
 
-	remainingTickets = remainingTickets - userTickets
+		if userTickets <= remainingTickets {
+			remainingTickets = remainingTickets - userTickets
 
-	bookings[0] = "hemant"
+			bookings = append(bookings, userName)
 
-	fmt.Printf("Thank You %v for booking %v Tickets. you will recieve confirmation and copy of ticket at %v\n", userName, userTickets, userEmail)
-	fmt.Printf("Remaining %v tickets for confrence\n", remainingTickets)
+			fmt.Printf("Thank You %v for booking %v Tickets. you will recieve confirmation and copy of ticket at %v\n", userName, userTickets, userEmail)
+			fmt.Printf("Remaining %v tickets for confrence\n", remainingTickets)
 
+			fmt.Printf("Users who booked tickets are %v\n", bookings)
+
+			if remainingTickets == 0 {
+				fmt.Println("All tickets are booked")
+				break
+			}
+		} else {
+			fmt.Printf("we have %v remaining tickets your ticket amount %v cannot exceed it \n", remainingTickets, userTickets)
+		}
+	}
 }
